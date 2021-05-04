@@ -32,15 +32,21 @@ export const InputWrapper: React.FC<Props> = ({
       onChange={onChange}
       value={value}
     />
-    {onBack && (
-      <button onClick={onBack} type="button">
-        Back
-      </button>
-    )}
-    {onNext && (
-      <button onClick={onNext} type={hasSubmit ? "submit" : "button"}>
-        Next
-      </button>
-    )}
+    <div className="cta-block">
+      {onBack && (
+        <button onClick={onBack} type="button" className="cta-block__back">
+          Back
+        </button>
+      )}
+      {onNext && (
+        <button
+          onClick={onNext}
+          type={hasSubmit ? "submit" : "button"}
+          className="cta-block__next"
+        >
+          Next
+        </button>
+      )}
+    </div>
   </div>
 );

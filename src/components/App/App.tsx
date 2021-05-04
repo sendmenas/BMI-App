@@ -1,9 +1,18 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Formik, FormikHelpers, Form, Field } from "formik";
 import { InputWrapper } from "../InputWrapper";
-import { calculateBmi, getMessage } from "../../heplers/calculateBmi";
+import { ValuesTable } from "../ValuesTable";
+import {
+  calculateBmi,
+  getMessage,
+  getTimeString,
+  updateVisitCounter,
+  getCount,
+  getHeight,
+  getWeight,
+} from "../../heplers";
 import { FormVals, System } from "./types";
 
 const initialValues = {
@@ -16,10 +25,14 @@ const initialValues = {
 export const App = () => {
   const [step, setStep] = useState(1);
   const [message, setMessage] = useState("");
+  const [time, setTime] = useState(0);
 
-  const handleNext = () => {
-    setStep((step) => step + 1);
-  };
+  useEffect(() => {
+    setTime(Date.now());
+    updateVisitCounter();
+  }, []);
+
+  const handleNext = () => setStep((step) => step + 1);
   const handleBack = () => setStep((step) => step - 1);
   const handleSubmit = (vals: FormVals, actions: FormikHelpers<FormVals>) => {
     const { name, height, weight, system } = vals;
@@ -27,6 +40,12 @@ export const App = () => {
     const bmi = calculateBmi(height, weight, system);
     setMessage(getMessage(name, bmi));
     setStep((step) => step + 1);
+  };
+  const logData = () => {
+    console.table({
+      "Time elapsed": getTimeString((Date.now() - time) / 1000),
+      Visits: getCount(),
+    });
   };
 
   const isFirstStep = step === 1;
@@ -37,61 +56,63 @@ export const App = () => {
   // Galima praplėsti pasirinkimus pridedant lyties, amžiaus pasirinkimus
   return (
     <section className="section">
-      <header>BMI App</header>
-      <main>
+      <h1 className="title">BMI App</h1>
+      <main className="container">
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ values, handleChange }) => (
-            <Form>
-              <Field
-                component="select"
-                id="system"
-                name="system"
-                disabled={isFinished ? true : false}
-              >
-                <option value="metric">metric</option>
-                <option value="imperial">imperial</option>
-              </Field>
-              {isFirstStep && (
-                <InputWrapper
-                  label="Name"
-                  name="name"
-                  type="text"
-                  value={values.name}
-                  onChange={handleChange}
-                  onNext={handleNext}
-                />
-              )}
-              {isSecondStep && (
-                <InputWrapper
-                  label={`Weight (${
-                    values.system === System.Metric ? "kg" : "lbs"
-                  })`}
-                  name="weight"
-                  type="number"
-                  value={values.weight}
-                  onChange={handleChange}
-                  onNext={handleNext}
-                  onBack={handleBack}
-                />
-              )}
-              {isThirdStep && (
-                <InputWrapper
-                  label={`Height (${
-                    values.system === System.Metric ? "cm" : "inches"
-                  })`}
-                  name="height"
-                  type="number"
-                  value={values.height}
-                  onBack={handleBack}
-                  onNext={() => console.log("stats")}
-                  onChange={handleChange}
-                  hasSubmit={true}
-                />
-              )}
-            </Form>
+            <>
+              <Form className="form">
+                {isFirstStep && (
+                  <InputWrapper
+                    label="Name"
+                    name="name"
+                    type="text"
+                    value={values.name}
+                    onChange={handleChange}
+                    onNext={handleNext}
+                  />
+                )}
+                {isSecondStep && (
+                  <InputWrapper
+                    label={`Weight (${getWeight(values.system)})`}
+                    name="weight"
+                    type="number"
+                    value={values.weight}
+                    onChange={handleChange}
+                    onNext={handleNext}
+                    onBack={handleBack}
+                  />
+                )}
+                {isThirdStep && (
+                  <InputWrapper
+                    label={`Height (${getHeight(values.system)})`}
+                    name="height"
+                    type="number"
+                    value={values.height}
+                    onBack={handleBack}
+                    onNext={logData}
+                    onChange={handleChange}
+                    hasSubmit={true}
+                  />
+                )}
+                {!isFirstStep && !isFinished && (
+                  <Field
+                    component="select"
+                    id="system"
+                    name="system"
+                    disabled={isFinished ? true : false}
+                    className="select"
+                  >
+                    <option value="metric">metric</option>
+                    <option value="imperial">imperial</option>
+                  </Field>
+                )}
+              </Form>
+              {isFinished && <p className="message">{message}</p>}
+              <ValuesTable {...values} />
+            </>
           )}
         </Formik>
-        {isFinished && <p>{message}</p>}
       </main>
     </section>
   );

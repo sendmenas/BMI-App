@@ -1,0 +1,10 @@
+.data-container {
+  display: grid;
+  grid-gap: 8px;
+}
+
+.data-container__line {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
