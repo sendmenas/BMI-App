@@ -10,6 +10,11 @@ App consist of three steps:
 After submitting these metrics you will get the calculation of your BMI.
 Addition data will be displayed in the dev tools console - time spent, visit count and selected metric system.
 
+## Before start
+
+Clone project.\
+Run `yarn install` in root folder
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -24,11 +29,11 @@ You will also see any lint errors in the console.
 
 ### `yarn build`
 
-Builds the app for production to the `build` folder.\
+Builds the app for production to the `build` folder.
 
 ### `yarn deploy`
 
-Builds the app for production to the `build` folder and deploy it to Github pages [https://sendmenas.github.io/bmi-app/](https://sendmenas.github.io/bmi-app/).\
+Builds the app for production to the `build` folder and deploy it to Github pages [https://sendmenas.github.io/bmi-app/](https://sendmenas.github.io/bmi-app/).
 
 ### `Future updates`
 
