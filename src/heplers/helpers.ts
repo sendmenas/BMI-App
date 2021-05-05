@@ -2,7 +2,6 @@ import { System } from "../components/App";
 
 const storageKey = "count";
 
-/* Naidota formulė, kartu su "nuosprendžiu", yra paimta iš WHO puslapio. Tai šia vietą galima praplėsti taikant ją pagal atskirų šalių metodikas */
 export const calculateBmi = (
   height: number,
   weight: number,

@@ -52,7 +52,6 @@ export const App = () => {
   const isThirdStep = step === 3;
   const isFinished = step === 4;
 
-  // Galima praplėsti pasirinkimus pridedant lyties, amžiaus pasirinkimus
   return (
     <section className="section">
       <h1 className="title">BMI App</h1>

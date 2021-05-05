@@ -22,10 +22,17 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-
 ### `yarn build`
 
 Builds the app for production to the `build` folder.\
+
+### `yarn deploy`
+
+Builds the app for production to the `build` folder and deploy it to Github pages [https://sendmenas.github.io/bmi-app/](https://sendmenas.github.io/bmi-app/).\
+
+### `Future updates`
+
+- Add possibility to set gender, age, body type and ect.
+- Add explanation of what would be a good BMI (in case of a bad results), what weight is recommended.
+- Add additional formulas for BMI calculation. Add possibility to select country, as it might vary based on it as well.
+- Current tracking should be changed as well, saving such data in browser will not help marketing :) probably Google Analytics is a better choice
