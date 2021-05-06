@@ -3,7 +3,7 @@
 App consist of three steps:
 
 - Enter your name
-- Enter your wight
+- Enter your weight
 - Enter your height
   You can choose the metric system for data.
 
