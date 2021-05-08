@@ -10,6 +10,8 @@ type Props = {
   onChange: (e: ChangeEvent<any>) => void;
   onNext?: (() => void) | ((vals: any) => void);
   onBack?: () => void;
+  isValid: boolean;
+  error?: string;
 };
 
 export const InputWrapper: React.FC<Props> = ({
@@ -21,6 +23,8 @@ export const InputWrapper: React.FC<Props> = ({
   onChange,
   onNext,
   onBack,
+  isValid,
+  error,
 }) => (
   <div className="input-wrapper">
     <label htmlFor={name}>{label}</label>
@@ -43,10 +47,12 @@ export const InputWrapper: React.FC<Props> = ({
           onClick={onNext}
           type={hasSubmit ? "submit" : "button"}
           className="cta-block__next"
+          disabled={isValid ? false : true}
         >
           Next
         </button>
       )}
     </div>
+    {error && <p className="errorMessage">{error}</p>}
   </div>
 );

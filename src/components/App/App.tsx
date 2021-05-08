@@ -13,6 +13,20 @@ import {
   getWeight,
 } from "../../heplers";
 import { FormVals, System } from "./types";
+import * as Yup from "yup";
+
+const ValidationSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Name is required"),
+  height: Yup.number()
+    .positive("Can not be negative")
+    .required("Height is required"),
+  weight: Yup.number()
+    .positive("Can not be negative")
+    .required("Weight is required"),
+});
 
 const initialValues = {
   system: System.Metric,
@@ -56,9 +70,15 @@ export const App = () => {
     <section className="section">
       <h1 className="title">BMI App</h1>
       <main className="container">
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ values, handleChange }) => (
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validationSchema={ValidationSchema}
+          validateOnMount={true}
+        >
+          {({ values, handleChange, errors }) => (
             <>
+              <ValuesTable {...values} />
               <Form className="form">
                 {isFirstStep && (
                   <InputWrapper
@@ -68,6 +88,8 @@ export const App = () => {
                     value={values.name}
                     onChange={handleChange}
                     onNext={handleNext}
+                    isValid={!errors.name}
+                    error={errors.name}
                   />
                 )}
                 {isSecondStep && (
@@ -79,6 +101,8 @@ export const App = () => {
                     onChange={handleChange}
                     onNext={handleNext}
                     onBack={handleBack}
+                    isValid={!errors.weight}
+                    error={errors.weight}
                   />
                 )}
                 {isThirdStep && (
@@ -91,6 +115,8 @@ export const App = () => {
                     onNext={logData}
                     onChange={handleChange}
                     hasSubmit={true}
+                    isValid={!errors.height}
+                    error={errors.height}
                   />
                 )}
                 {!isFirstStep && !isFinished && (
@@ -107,7 +133,6 @@ export const App = () => {
                 )}
               </Form>
               {isFinished && <p className="message">{message}</p>}
-              <ValuesTable {...values} />
             </>
           )}
         </Formik>

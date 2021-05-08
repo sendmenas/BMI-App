@@ -18,3 +18,9 @@
 .cta-block__next {
   grid-column: 2;
 }
+
+.errorMessage {
+  color: red;
+  grid-column: span 2;
+  margin: 0;
+}
