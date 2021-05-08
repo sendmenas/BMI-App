@@ -11,6 +11,8 @@ import {
   getCount,
   getHeight,
   getWeight,
+  saveDataToStorage,
+  getDataFromStorage,
 } from "../../heplers";
 import { FormVals, System } from "./types";
 import * as Yup from "yup";
@@ -28,7 +30,7 @@ const ValidationSchema = Yup.object().shape({
     .required("Weight is required"),
 });
 
-const initialValues = {
+export const initialValues = {
   system: System.Metric,
   name: "",
   height: 0,
@@ -39,6 +41,9 @@ export const App = () => {
   const [step, setStep] = useState(1);
   const [message, setMessage] = useState("");
   const [time, setTime] = useState(0);
+  const [historicValues, setHistoricValues] = useState(() =>
+    getDataFromStorage()
+  );
 
   useEffect(() => {
     setTime(Date.now());
@@ -53,6 +58,7 @@ export const App = () => {
     const bmi = calculateBmi(height, weight, system);
     setMessage(getMessage(name, bmi));
     setStep((step) => step + 1);
+    saveDataToStorage(vals);
   };
   const logData = () => {
     console.table({
@@ -71,10 +77,9 @@ export const App = () => {
       <h1 className="title">BMI App</h1>
       <main className="container">
         <Formik
-          initialValues={initialValues}
+          initialValues={historicValues}
           onSubmit={handleSubmit}
           validationSchema={ValidationSchema}
-          validateOnMount={true}
         >
           {({ values, handleChange, errors }) => (
             <>

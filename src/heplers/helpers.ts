@@ -1,6 +1,7 @@
-import { System } from "../components/App";
+import { FormVals, System, initialValues } from "../components/App";
 
 const storageKey = "count";
+const storageValsKey = "vals";
 
 export const calculateBmi = (
   height: number,
@@ -43,10 +44,23 @@ export const updateVisitCounter = () => {
   window.localStorage.setItem(storageKey, updatedCount);
 };
 
-export const getCount = () => window.localStorage.getItem(storageKey);
+export const getCount = (): string | null =>
+  window.localStorage.getItem(storageKey);
 
-export const getWeight = (system: System) =>
+export const getWeight = (system: System): string =>
   system === System.Metric ? "kg" : "lbs";
 
 export const getHeight = (system: System) =>
   system === System.Metric ? "cm" : "inches";
+
+export const saveDataToStorage = (vals: FormVals): void => {
+  window.localStorage.setItem(storageValsKey, JSON.stringify(vals));
+};
+
+export const getDataFromStorage = (): FormVals => {
+  const data = window.localStorage.getItem(storageValsKey);
+  if (data) {
+    return JSON.parse(data);
+  }
+  return initialValues;
+};

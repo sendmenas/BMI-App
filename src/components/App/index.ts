@@ -1,2 +1,2 @@
-export { App } from "./App";
+export { App, initialValues } from "./App";
 export * from "./types";
