@@ -3,9 +3,10 @@
 App consist of three steps:
 
 - Enter your name
-- Enter your wight
+- Enter your weight
 - Enter your height
-  You can choose the metric system for data.
+
+You can choose the metric system for data.
 
 After submitting these metrics you will get the calculation of your BMI.
 Addition data will be displayed in the dev tools console - time spent, visit count and selected metric system.
